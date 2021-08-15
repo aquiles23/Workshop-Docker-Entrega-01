@@ -1,4 +1,4 @@
-FROM python:3.8.1-slim
+FROM python:3.8.1
 
 ENV PYTHONUNBUFFERED 1
 
@@ -15,7 +15,5 @@ COPY poetry.lock pyproject.toml ./
 RUN pip install poetry==1.1
 RUN poetry config virtualenvs.in-project false
 RUN poetry install --no-dev
-
-COPY . ./
 
 ENTRYPOINT ["bash", "entrypoint.sh"]

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
 
@@ -12,7 +12,7 @@ services:
       - "8000:8000"
     restart: on-failure
     volumes:
-      - ./backend:/app
+      - ./backend:/usr/app
     environment:
       DB_CONNECTION: ${DB_CONNECTION}
     depends_on:
@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     volumes:
-      - db_data:/var/lib/postgresql/data:cached
+      - ./db_data:/var/lib/postgresql/data
     networks:
       - app_network
 
@@ -44,7 +44,7 @@ services:
     restart: on-failure
     volumes:
       - ./frontend:/frontend
-      - node_modules_front:/frontend/node_modules  
+      - /frontend/node_modules  
     networks:
       - app_network
 
@@ -53,6 +53,3 @@ networks:
   app_network:
 
 
-volumes:
-  db_data:
-  node_modules_front: 
