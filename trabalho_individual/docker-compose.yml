@@ -56,9 +56,7 @@ services:
       - chat-service-db
 
   phpmyadmin:
-    image: phpmyadmin:5-fpm-alpine
-    environment:
-      MYSQL_ROOT_PASSWORD: password
+    image: phpmyadmin/phpmyadmin
     ports:
       - 7300:80
     volumes:
