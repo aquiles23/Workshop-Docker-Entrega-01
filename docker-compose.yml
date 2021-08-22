@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  chat-app:
+    build:
+      context: ./trabalho_individual/chat-app
+    env_file: ./trabalho_individual/chat-app/.env
+    restart: unless-stopped
+    ports:
+      - 7001:7001
+    tty: true
+    volumes: 
+      - ./trabalho_individual/chat-app:/chat-app
+      - /chat-app/node_modules
+    command: yarn watch
+
+  api-gateway:
+    build:
+      context: ./trabalho_individual/api-gateway
+    restart: unless-stopped
+    ports:
+      - 7000:7000
+    tty: true
+    volumes: 
+      - ./trabalho_individual/api-gateway:/api-gateway
+      - /api-gateway/node_modules
+    command: yarn watch
+
+  chat-service-db:
+    image: mysql:5.7.20
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+    volumes:
+      - ./db_data/chat-service-db:/var/lib/mysql
+    ports:
+      - 7200:3306
+  
+  chat-service:
+    build:
+      context: ./trabalho_individual/chat-service
+    restart: unless-stopped
+    ports:
+      - 7100:7100
+    tty: true
+    volumes: 
+      - ./trabalho_individual/chat-service:/chat-service
+      - /chat-service/node_modules
+    command: yarn watch
+
+  phpmyadmin:
+    image: phpmyadmin:5-fpm-alpine
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 7300:80
+    volumes:
+      - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+  
+  users-service-db:
+    image: mysql:5.7.20
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+    volumes:
+      - ./db_data/users-service-db:/var/lib/mysql
+    ports:
+      - 7201:3306
+
+  users-service:
+    build:
+      context: ./trabalho_individual/users-service
+    restart: unless-stopped
+    ports:
+      - 7101:7101
+    tty: true
+    volumes: 
+      - ./trabalho_individual/users-service:/users-service
+      - /users-service/node_modules
+    command: yarn db:migrate && yarn watch
