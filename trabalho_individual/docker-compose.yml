@@ -3,14 +3,14 @@ version: '3.8'
 services:
   chat-app:
     build:
-      context: ./trabalho_individual/chat-app
-    env_file: ./trabalho_individual/chat-app/.env
+      context: ./chat-app
+    env_file: ./chat-app/.env
     restart: unless-stopped
     ports:
       - 7001:7001
     tty: true
     volumes: 
-      - ./trabalho_individual/chat-app:/chat-app
+      - ./chat-app:/chat-app
       - /chat-app/node_modules
     command: yarn watch
     depends_on:
@@ -18,13 +18,13 @@ services:
 
   api-gateway:
     build:
-      context: ./trabalho_individual/api-gateway
+      context: ./api-gateway
     restart: unless-stopped
     ports:
       - 7000:7000
     tty: true
     volumes: 
-      - ./trabalho_individual/api-gateway:/api-gateway
+      - ./api-gateway:/api-gateway
       - /api-gateway/node_modules
     command: yarn watch
     depends_on:
@@ -43,13 +43,13 @@ services:
   
   chat-service:
     build:
-      context: ./trabalho_individual/chat-service
+      context: ./chat-service
     restart: unless-stopped
     ports:
       - 7100:7100
     tty: true
     volumes: 
-      - ./trabalho_individual/chat-service:/chat-service
+      - ./chat-service:/chat-service
       - /chat-service/node_modules
     command: yarn watch
     depends_on:
@@ -79,13 +79,13 @@ services:
 
   users-service:
     build:
-      context: ./trabalho_individual/users-service
+      context: ./users-service
     restart: unless-stopped
     ports:
       - 7101:7101
     tty: true
     volumes: 
-      - ./trabalho_individual/users-service:/users-service
+      - ./users-service:/users-service
       - /users-service/node_modules
     command: sh -c "yarn db:migrate && yarn watch"
     depends_on:
