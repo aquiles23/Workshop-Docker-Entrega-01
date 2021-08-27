@@ -4,7 +4,7 @@ services:
   chat-app:
     build:
       context: ./chat-app
-    env_file: ./chat-app/.env
+    env_file: .env
     restart: unless-stopped
     ports:
       - 7001:7001
